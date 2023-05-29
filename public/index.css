@@ -1,9 +1,13 @@
-#file-text {
+#file-text,
+#redacted-text {
     border: 1px solid black;
-    width: 75%;
-
 }
 
 h2 {
     color: red;
+}
+
+#text-display {
+    display: flex;
+    flex-direction: row;
 }

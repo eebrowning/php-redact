@@ -9,6 +9,10 @@ require __DIR__ . '/vendor/autoload.php';
 $app = AppFactory::create();
 //RECREATING A REACT APPLICATION IN LARAVEL
 
+
+
+
+
 //use the 'any' and base endpoint for a more dynamic app:
 $app->any('/', function (Request $request, Response $response, $args) {
     $uploadedFile=null;
@@ -21,6 +25,9 @@ $app->any('/', function (Request $request, Response $response, $args) {
     } else {
         $fileText = '';
     }
+    addRedactionBlock();//from utils
+    $redactedPhrases= $GLOBALS['redactedPhrases'];
+    redactPhrases($fileText);
 
     $html = <<<HTML
         <head>
@@ -29,14 +36,29 @@ $app->any('/', function (Request $request, Response $response, $args) {
         </head>
         <form action="/" method="post" enctype="multipart/form-data">
             <input type="file" name="file" accept=".txt">
-            <button type="submit">Upload</button>
-        </form>
-        <form action="/" method="post" enctype="multipart/form-data">
+
             <input id='redacted-phrases' type="text" name="redacted-phrases" accept=".txt">
             <button type="submit">Upload</button>
+
         </form>
-        <h2 >File Content:</h2>
-        <p id='file-text'>$fileText</p>
+        <h2 >Phrases to remove:</h2>
+        <p id='uploaded-phrases'>
+                $redactedPhrases
+        </p>
+        <div id='text-display'>
+
+            <label for="file-text">
+                <h2>File Content:</h2>
+                <p id='file-text'>$fileText</p>
+            </label>
+            
+            <label for="redacted-text">
+                <h2 >Redacted Content:</h2>
+                <p id='redacted-text'>$fileText</p>
+            </label>
+
+        </div>
+
     HTML;
 
     $response->getBody()->write($html);

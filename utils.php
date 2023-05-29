@@ -29,13 +29,16 @@ function addRedactionBlock() {
     }
 
     // setRedactedPhrases($redactedPhrases);//todo: find a way to set and use them
+    $GLOBALS['redactedPhrases']=implode(", ",$redactedPhrases);
+    $GLOBALS['redactedArray']=$redactedPhrases;
 
-    // Output the redacted phrases
-    print_r($redactedPhrases);
+    // echo $GLOBALS['redactedPhrases'];
 }
-addRedactionBlock();//
-
 
 // <!-- redact file -->
+function redactPhrases($text){
+    // print_r($GLOBALS['redactedArray']);
+    // echo($text);
 
+}
 // <!-- download file -->
