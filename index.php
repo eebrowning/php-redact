@@ -15,7 +15,10 @@ $app = AppFactory::create();
 
 //use the 'any' and base endpoint for a more dynamic app:
 $app->any('/', function (Request $request, Response $response, $args) {
-    $uploadedFile=null;
+    
+    $uploadedFile=null;//declared to resolve initial undefined error
+
+    //should turn this into a util function
     if ($request->getUploadedFiles()){    
         $uploadedFile = $request->getUploadedFiles()['file'];
     }
@@ -25,6 +28,9 @@ $app->any('/', function (Request $request, Response $response, $args) {
     } else {
         $fileText = '';
     }
+    //
+    
+
     addRedactionBlock();//from utils
     $redactedPhrases= $GLOBALS['redactedPhrases'];
     redactPhrases($fileText);
@@ -35,9 +41,14 @@ $app->any('/', function (Request $request, Response $response, $args) {
             <link rel="stylesheet" href="/public/index.css">
         </head>
         <form action="/" method="post" enctype="multipart/form-data">
-            <input type="file" name="file" accept=".txt">
-
-            <input id='redacted-phrases' type="text" name="redacted-phrases" accept=".txt">
+            <label for="file">
+                <h2>Text File</h2>
+                <input type="file" name="file" accept=".txt">
+            </label>
+            <label for="redacted-phrases">
+                <h2> String of phrases</h2>
+                <input id='redacted-phrases' type="text" name="redacted-phrases" accept=".txt">
+            </label>
             <button type="submit">Upload</button>
 
         </form>
